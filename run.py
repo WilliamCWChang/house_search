@@ -16,8 +16,8 @@ def get_headers(user_data):
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",
     }
     data = {
-        "user.username": user_data["user"]["username"],
-        "user.pwd": user_data["user"]["password"],
+        "user.username": user_data["username"],
+        "user.pwd": user_data["password"],
         "user.verifyCode": "",
         "cookie": "on",
         "login_sub": "",
@@ -130,15 +130,15 @@ def save_to_csv_file(csv_filename, dict_data):
             writer.writerow(data)
 
 
-def get_total_house(user_data, headers):
+def get_total_house(house_data, headers):
     payload = {
-        "type": user_data["house"]["type"],
-        "shType": user_data["house"]["shType"],
-        "regionid": user_data["house"]["regionid"],
-        "section": user_data["house"]["section"],
-        "area": user_data["house"]["area"],
-        "price": user_data["house"]["price"],
-        "houseage": user_data["house"]["houseage"],
+        "type": house_data["type"],
+        "shType": house_data["shType"],
+        "regionid": house_data["regionid"],
+        "section": house_data["section"],
+        "area": house_data["area"],
+        "price": house_data["price"],
+        "houseage": house_data["houseage"],
     }
 
     dict_data = []
@@ -156,5 +156,6 @@ def get_total_house(user_data, headers):
 
 
 user_data = toml.load("user.toml")
-house_data = get_total_house(user_data, get_headers(user_data))
-save_to_csv_file("new.csv", house_data)
+house_data = toml.load("house.toml")
+house_result = get_total_house(house_data, get_headers(user_data))
+save_to_csv_file("new.csv", house_result)
