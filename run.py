@@ -70,38 +70,40 @@ def get_json(headers, payload):
 
 def save_to_csv_file(csv_filename, dict_data):
     csv_columns = [
-        "filename",
-        "type",
-        "houseid",
-        "kind",
-        "kind_name",
-        "shape_name",
-        "region_name",
-        "section_name",
+        "refreshtime",
+        "houseage",
+        "community_name",
+        "unitprice",
+        "mainarea",
         "title",
         "has_carport",
         "room",
         "floor",
+        "area",
+        "address",
+        "browsenum",
+        "price",
+        "tag",
+        "section_name",
+        "houseid",
+        "isnew",
+        "filename",
+        "type",
+        "kind",
+        "kind_name",
+        "shape_name",
+        "region_name",
         "photoNum",
-        "mainarea",
         "carttype",
         "cartmodel",
         "is_video",
         "is_full",
         "photo_url",
-        "refreshtime",
         "nick_name",
         "housetype",
-        "isnew",
         "posttime",
-        "area",
-        "houseage",
         "showhouseage",
-        "address",
-        "browsenum",
         "unit_price",
-        "unitprice",
-        "price",
         "showprice",
         "is_oversea",
         "is_carport",
@@ -111,9 +113,6 @@ def save_to_csv_file(csv_filename, dict_data):
         "is_combine",
         "isvip",
         "is_hurry_price",
-        "community_link",
-        "community_name",
-        "tag",
         "saletype",
         "delivery",
         "fci_pai",
@@ -122,6 +121,7 @@ def save_to_csv_file(csv_filename, dict_data):
         "mvip",
         "m_recom",
         "user_id",
+        "community_link",
     ]
     with open(csv_filename, "w", newline="", encoding="UTF-8") as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
@@ -155,7 +155,24 @@ def get_total_house(house_data, headers):
     return dict_data
 
 
+def house_filter(h, prefer_road, not_prefer_community):
+    for road in prefer_road:
+        if road in h["address"]:
+            if h["community_name"] not in not_prefer_community:
+                return h
+    return None
+
+
 user_data = toml.load("user.toml")
 house_data = toml.load("house.toml")
+prefer_road = house_data["prefer_road"]
+not_prefer_community = house_data["not_prefer_community"]
 house_result = get_total_house(house_data, get_headers(user_data))
-save_to_csv_file("new.csv", house_result)
+house_result2 = []
+for h in house_result:
+    if house_filter(h, prefer_road, not_prefer_community):
+        house_result2.append(h)
+
+print(f"house after fileter =  {len(house_result2)}")
+
+save_to_csv_file("new.csv", house_result2)
