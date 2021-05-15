@@ -159,6 +159,7 @@ def house_filter(h, prefer_road, not_prefer_community):
     for road in prefer_road:
         if road in h["address"]:
             if h["community_name"] not in not_prefer_community:
+                # if "2衛" in h["room"]:
                 return h
     return None
 
@@ -170,6 +171,7 @@ not_prefer_community = house_data["not_prefer_community"]
 house_result = get_total_house(house_data, get_headers(user_data))
 house_result2 = []
 for h in house_result:
+    h["houseid"] = f"https://sale.591.com.tw/home/house/detail/2/{h['houseid']}.html"
     if house_filter(h, prefer_road, not_prefer_community):
         house_result2.append(h)
 
