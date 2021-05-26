@@ -159,8 +159,8 @@ def house_filter(h, prefer_road, not_prefer_community):
     for road in prefer_road:
         if road in h["address"]:
             if h["community_name"] not in not_prefer_community:
-                # if "2衛" in h["room"]:
-                return h
+                if int(h["mainarea"]) < 1 or int(h["mainarea"]) > 20:
+                    return h
     return None
 
 
