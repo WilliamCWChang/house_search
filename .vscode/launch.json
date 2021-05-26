@@ -8,7 +8,7 @@
             "name": "Python: 目前檔案",
             "type": "python",
             "request": "launch",
-            "program": "run.py",
+            "program": "run_rent.py",
             "console": "integratedTerminal"
         }
     ]
