@@ -130,11 +130,12 @@ def get_max_min(csv_filename):
     return max(data), min(data)
 
 
-for i in range(1):
-    csv_filename = "ycut.csv"
-    dict_data = []
+csv_filename = "ycut.csv"
 
-    MAX_TOTAL = 10
+MAX_TOTAL = 10
+
+for i in range(1):
+    dict_data = []
     mx, mi = get_max_min(csv_filename)
     print(mx, mi)
 
